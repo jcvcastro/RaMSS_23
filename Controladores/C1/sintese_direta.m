@@ -109,7 +109,7 @@ figure(4); clf
    %
    f.PaperSize = [7 4];
    % print('CsoTs30ms1_3_time_response.pdf', '-dpdf', '-fillpage');
-   print(['C1_ts', num2str(ts2*1e3), '_Ts', num2str(Ts*1e3),...
+   print(['figs/C1_ts', num2str(ts2*1e3), '_Ts', num2str(Ts*1e3),...
      '_time_response.pdf'], '-dpdf', '-fillpage');
 
 
