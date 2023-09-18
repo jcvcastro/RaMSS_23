@@ -1,26 +1,46 @@
 %% Modelo motor CC (334ppr?)
 
-clear all
+clear
 % close all
-% Parametros do motor:
-Ke = .0253;     % Constante de F.C.E.M.
-Kt = Ke;        % Constante de torque
-Ra = 12;        % Resistencia de armadura
-La = 0.00216;   % Indutância de armadura
-Jm = 1.3e-6;    % Momento de inercia
-Bm = 4.175e-6;  % Coeficiente de atrito
-% Kg = 1/21;    % Razao de engrenagens
 
-% Motor 2
+%% Parametros do motor:
+
+% Motor 0 (não me lembro de onde tirei isso)
 %TODO: Olhar de onde foi que tirei esses dados. Se é do motor que tenho!
-Ke = 2.8;
-Kt = Ke;
-Ra = 0.8; % Resistencia de armadura me parece ser muito
-          % pequena para ser do motorzinho que costumo usar!
-La = 1.13e-3;
-Jm = 0.2;
-Bm = 0.01;
+tipo_motor = '';
+% Ke = 2.8;
+% Kt = Ke;
+% Ra = 0.8; % Ra parece ser muito pequena para ser do motorzinho que costumo usar!
+% La = 1.13e-3;
+% Jm = 0.2;
+% Bm = 0.01;
+%
+% % Motor 1 Se não me engano são parâmetros do motor com encoder de 334ppr
+% tipo_motor = 'b';
+% Ke = .0253;     % Constante de F.C.E.M.
+% Kt = Ke;        % Constante de torque
+% Ra = 12;        % Resistencia de armadura
+% La = 0.00216;   % Indutância de armadura
+% Jm = 1.3e-6;    % Momento de inercia
+% Bm = 4.175e-6;  % Coeficiente de atrito
+% % Kg = 1/21;    % Razao de engrenagens
 
+% Motor 2 (motor com encoder de 32ppr)
+dados = dlmread('/home/joao/Documentos/GDRIVE/DOUTORADO/Subjects/VRFT/Codigos/Arduino/MotorVRFT/Reves/Motor_VRFT_identifica/Matlab/dados_oq_Ts5m.csv',',',1,0);
+figure(10);
+plot(1:length(dados),dados(:,1),'.',1:length(dados),dados(:,2),'x')
+% /home/joao/Documentos/GDRIVE/DOUTORADO/Subjects/VRFT/Codigos/Arduino/MotorVRFT/Reves/Motor_VRFT_identifica/Matlab/
+tipo_motor = 'c';
+Ke = 11.87e-3;
+Kt = Ke;
+Ra = 33.37; % Ra parece ser muito pequena para ser do motorzinho que costumo usar!
+La = 13.7e-3;
+Jm = 1.33e-8;
+Bm = 8.86e-7;
+
+
+
+%% Criando Função de transferência:
 s = tf('s');
 Ga = 1/(La*s+Ra);
 Gm = 1/(Jm*s+Bm);
