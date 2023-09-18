@@ -132,10 +132,14 @@ figure(4); clf
    % title('Resposta ao degrau do sistema controlado em malha fechada')
    %
    f.PaperSize = [7 4];
-   % print('CsoTs30ms1_3_time_response.pdf', '-dpdf', '-fillpage');
-   print(['figs/C1_ts', num2str(ts2*1e3), '_Ts', num2str(Ts*1e3),...
-     '_time_response.pdf'], '-dpdf', '-fillpage');
+   figpath = './figs/';
+   figname = ['C1', tipo_motor, '_ts20e100_Ts', Ts, 'm_time_response.pdf'];
+   print([figpath figname], '-dpdf', '-fillpage');
 
+   system(['pdf-crop-margins -mo ' figpath, figname])
+   system(['pdftoppm -singlefile -png ', figpath figname, ' ', figpath 'png/' figname(1:end-4)])
+   % print(['figs/C1_ts', num2str(ts2*1e3), '_Ts', num2str(Ts*1e3),...
+   %   '_time_response.pdf'], '-dpdf', '-fillpage');
 
    g=figure(1);
    g.PaperSize = [7 4];
