@@ -60,33 +60,33 @@ title('Resposta ao degrau - Malha aberta')
 ylabel('y(k)')
 
 %% Projeto controlador
-figure(2); clf;
-rlocus(Gd)
-% sisotool(G)
 
-%% Parametros desejados:
-MP = 0.1;    % Maximo sobressalto
-ts2 = 50*Ts; % Tempo de acomodacao
+ts_values = [10*Ts 50*Ts];
+for c=1:2
 
-xi = -log(MP)/sqrt(log(MP)^2+pi^2);  % MP = exp(-xi*pi/sqrt(1-xi^2))
-wn = 4/ts2/xi;
-wd = wn*sqrt(1-xi^2);
-modulo_z = exp(-xi*wn*Ts);
-fase_z = wd*Ts;
+  %% Parametros desejados:
+  MP = 0.1;    % Maximo sobressalto
+  ts2 = ts_values(c); % Tempo de acomodacao
 
-pd1 = modulo_z*(cos(fase_z)+sin(fase_z)*1j);
-pd2 = conj(pd1);
-pd = [pd1; pd2]'
+  xi = -log(MP)/sqrt(log(MP)^2+pi^2);  % MP = exp(-xi*pi/sqrt(1-xi^2))
+  wn = 4/ts2/xi;
+  wd = wn*sqrt(1-xi^2);
+  modulo_z = exp(-xi*wn*Ts);
+  fase_z = wd*Ts;
 
-pm = pole(Gd)                 % d polos do motor
-Tdtemp = zpk([],pd,1,Ts)      % reference model;
+  pd1 = modulo_z*(cos(fase_z)+sin(fase_z)*1j);
+  pd2 = conj(pd1);
+  pd = [pd1; pd2]'
 
+  pm = pole(Gd)                 % d polos do motor
+  Tdtemp = zpk([],pd,1,Ts)      % reference model;
 
-K0 = 1/dcgain(Tdtemp)
-Td{1} = zpk([],pd,K0,Ts)      % reference model;
-Td{2} = zpk([],pd,K0*0.9,Ts)  % reference model;
-% Td{3} = zpk([],pd,K0*0.95,Ts) % reference model;
+  K0 = 1/dcgain(Tdtemp);
+  Td{2*c-1} = zpk([],pd,K0,Ts)      % reference model;
+  Td{2*c} = zpk([],pd,K0*0.9,Ts)  % reference model;
+  % Td{3} = zpk([],pd,K0*0.95,Ts) % reference model;
 
+end
 
 %% Projeto por sintese direta:
 % Td = GC/(1+GC)
@@ -95,20 +95,21 @@ Td{2} = zpk([],pd,K0*0.9,Ts)  % reference model;
 % Td = GC(1-Td)
 % GC = Td/(1-Td)
 % C = Td/G/(1-Td)
+printARX(Gd,0,'u','y');
 for i = 1:length(Td)
    C{i} = minreal(Td{i}/Gd/(1-Td{i}));
    fprintf(['\nC' num2str(i) ':\n']);
    % printARX(C{i},0);
-   printARX(C{i},1);
+   printARX(C{i},1,'e','u');
    % Somando os coeficientes de agrupamento de termos:
-   cat_u{i} = tf(C{i}).den{1}; cat_u{i} = cat_u{i}(2:end);
+   Ctf{i} = tf(C{i});
+   cat_u{i} = Ctf{i}.den{1}; cat_u{i} = cat_u{i}(2:end);
    atCso_u(i) = -sum(cat_u{i});
 end
 
 atCso_u % soma dos coeficientes de agrupamento de termos.
 
 %%
-
 figure(4); clf
    f=gcf;
    yd=step(Td{1});
@@ -117,10 +118,10 @@ figure(4); clf
    legenda = {'reference model'};
    hold on
    grid on
-   linetype = {'bo', 'rx', 'k.', 'm+'}
+   linetype = {'bo', 'rx', 'k.', 'm+'};
    for i = 1:length(C)
       y = step(feedback(Gd*C{i},1),linetype{i});
-      legenda{i+1} = ['C' num2str(i)];
+      legenda{i+1} = ['C_1^' num2str(i)];
       plot(1:length(y),y,linetype{i});
    end
    xlabel('samples');
