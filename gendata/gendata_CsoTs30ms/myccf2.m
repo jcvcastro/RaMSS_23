@@ -1,1 +1,0 @@
-/home/joao/Documentos/GDRIVE/DOUTORADO/GIT/RaMSS_mat/gendata/gendata_CsoTs100ms/myccf2.m
