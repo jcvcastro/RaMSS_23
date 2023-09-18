@@ -1,4 +1,4 @@
-function [out] = printARX(C,d) 
+function printARX(C,d,in,out) 
 % Imprime modelo ARX referente à função(e transferência discreta C;
 % Parâmetros:
 %  C - Função de transferência em z;
@@ -9,9 +9,9 @@ function [out] = printARX(C,d)
 
    flag = false;
    if(d==0)
-      fprintf('u(k) = ');
+      fprintf([out '(k) = ']);
    else
-      fprintf(['u(k-' num2str(d) ') = ']);
+      fprintf([out '(k-' num2str(d) ') = ']);
    end
    for j=1:length(Cnum)
       coef = Cnum(j);
@@ -19,7 +19,7 @@ function [out] = printARX(C,d)
          if ( (coef >= 0) & flag )
             fprintf('+')
          end
-         fprintf([num2str(coef) '*e(k-' num2str(j-1+d) ')']);
+         fprintf([num2str(coef) '*' in '(k-' num2str(j-1+d) ')']);
          flag = true;
       else
       end
@@ -31,7 +31,7 @@ function [out] = printARX(C,d)
          if (coef >= 0)
             fprintf('+')
          end
-         fprintf([num2str(coef) '*u(k-' num2str(j-1+d) ')']);
+         fprintf([num2str(coef) '*' out '(k-' num2str(j-1+d) ')']);
       end
    end
    fprintf('\n')
