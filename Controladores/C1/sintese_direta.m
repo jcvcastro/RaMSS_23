@@ -53,8 +53,11 @@ z = tf('z',Ts)
 %          0.01611 z + 0.0101
 %  Gd =  ----------------------
 %        z^2 - 1.169 z + 0.2427
-figure(1); clf;
-step(Gd);
+figure(1);
+clf;
+step(Gd,'.');
+title('Resposta ao degrau - Malha aberta')
+ylabel('y(k)')
 
 %% Projeto controlador
 figure(2); clf;
@@ -133,3 +136,9 @@ figure(4); clf
      '_time_response.pdf'], '-dpdf', '-fillpage');
 
 
+   g=figure(1);
+   g.PaperSize = [7 4];
+   figname = ['C1', tipo_motor, 'Ts' Ts, 'm_MA.pdf'];
+   print([figpath figname], '-dpdf', '-fillpage');
+   system(['pdf-crop-margins -mo ' figpath, figname])
+   system(['pdftoppm -singlefile -png ', figpath figname, ' ', figpath 'png/' figname(1:end-4)])
