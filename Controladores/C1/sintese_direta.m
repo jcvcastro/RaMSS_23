@@ -47,7 +47,8 @@ Gm = 1/(Jm*s+Bm);
 G = feedback(Ga*Kt*Gm,Ke);
 
 %% Discretizando:
-Ts = 0.002;
+% Ts = 0.002;
+Ts = 0.005;
 Gd = c2d(G,Ts)
 z = tf('z',Ts)
 %          0.01611 z + 0.0101
