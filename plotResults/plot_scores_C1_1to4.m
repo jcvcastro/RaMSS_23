@@ -18,8 +18,8 @@ for i = 1:nf
   load(files{i})
 
   % Taking datafile (only) from complete path (to save figs with same name):
-  A = strread(files{i}, '%s', 'delimiter',strrep(filesep,char(filesep),filesep));
-  filename = A{end}(1:end-4); % Removing file extension
+%   A = strread(files{i}, '%s', 'delimiter',strrep(filesep,char(filesep),filesep));
+%   filename = A{end}(1:end-4); % Removing file extension
 
   score = compute_score(files{i});
   % six = a*s{2}-(s{2}-1);
