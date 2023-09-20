@@ -10,8 +10,8 @@ warning off
 %cd '~/Documentos/GDRIVE/DOUTORADO/GIT/RaMSS_mat/'
 %clc
 
-scriptspath = '../../RaMSS_mat/'
-addpath(scriptspath)
+scriptspath = '../../RaMSS_mat/';
+% addpath(scriptspath)
 
 %% Loading data
 % sampled_data_path = "~/DOUTORADO/GIT/RaMSS_mat/DATA/Sampled/0829/";
@@ -293,4 +293,4 @@ toc
 %sound(y,Fs)
 %plot(ramssdata.rip{1,1}')
 %%
-rmpath(scriptspath)
+% rmpath(scriptspath)
