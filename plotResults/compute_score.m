@@ -22,6 +22,8 @@ end
 
 [ntregs, dg] = size(tregs);
 tregs = [tregs zeros(ntregs, ramssdata.parameters.dg-dg)];
+%TODO: Checar se os regs verdadiros não têm grau maior que dg! Neste caso
+%dará erro acima!
 tregs = sort(tregs, 2, 'descend');
 a = ramssdata.parameters.alpha;
 
