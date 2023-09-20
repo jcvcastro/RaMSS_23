@@ -34,6 +34,7 @@ score.values = zeros(Nnl,Nmc);
 nota = zeros(Nnl,Nmc);
 score.mean = zeros(Nnl,1);
 score.std = zeros(Nnl,1);
+score.fselregs = cell(Nnl,Nmc);
 
 nprmd = 20;
 minripscore = 0.2;
@@ -48,6 +49,7 @@ for inl = 1:Nnl
       rc.srtd = rc.orig(rip.srtd.ix,:);
 
       model = rc.srtd(1:nprmd,:);
+      score.fselregs{inl,imc} = model; % saving first selected models
 
       %% Generic regressor ranking (same methodolgy as Aguirre)
       for i = 1:nprmd
