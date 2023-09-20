@@ -104,13 +104,13 @@ files = strcat(modelsnames, '-', sampleddatafilename)
 nccases = length(files);
 ntr = 1000;
 
-%% progressbar:
-if (parallel)
-  % progressbar('Alpha cases', 'Controller cases', 'Noise cases') % Init 2 bars
-  progressbar('Controller cases', 'Alpha cases', 'Estimator cases', 'Noise cases') % Init 2 bars
-else
-  progressbar('Controller cases', 'Alpha cases', 'Estimator cases', 'Noise cases','Monte Carlo Trials','RaMSS iterations') % Init 3 bars
-end
+% %% progressbar:
+% if (parallel)
+%   % progressbar('Alpha cases', 'Controller cases', 'Noise cases') % Init 2 bars
+%   progressbar('Controller cases', 'Alpha cases', 'Estimator cases', 'Noise cases') % Init 2 bars
+% else
+%   progressbar('Controller cases', 'Alpha cases', 'Estimator cases', 'Noise cases','Monte Carlo Trials','RaMSS iterations') % Init 3 bars
+% end
 
 tic;
 et = 0;    % elipsed time
@@ -170,12 +170,13 @@ for c = 1:nccases   % controller cases
       % ramssdata.tssdmdls = cell(Nnl,Nmc);
       tssdmdls = cell(Nnl,Nmc);
 
-      pbinfo.nccases = nccases;
-      pbinfo.necases = necases;
-      pbinfo.nacases = nacases;
-      pbinfo.c = c;
-      pbinfo.e = e;
-      pbinfo.a = a;
+
+      % pbinfo.nccases = nccases;
+      % pbinfo.necases = necases;
+      % pbinfo.nacases = nacases;
+      % pbinfo.c = c;
+      % pbinfo.e = e;
+      % pbinfo.a = a;
 
       % Multi core:
       if ( parallel )
@@ -197,12 +198,12 @@ for c = 1:nccases   % controller cases
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSLS(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
-                ptst, j, Nmc, i, Nnl, parallel, pbinfo);
+                ptst, j, Nmc, i, Nnl);
             elseif estimatortypes{e} == "IV"
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSIV(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
-                ptst, j, Nmc, i, Nnl, parallel, pbinfo);
+                ptst, j, Nmc, i, Nnl);
             else
               error('Unknown estimator type!')
             end
@@ -218,12 +219,12 @@ for c = 1:nccases   % controller cases
           rd.reg_comb{i} = rc_t;
           rd.sel_models{i} = sel_models;
 
-          % progressbar:
-          frac4 = i/Nnl;
-          frac3 = ((e-1) + frac4) / necases;
-          frac2 = ((a-1) + frac3) / nacases;
-          frac1 = ((c-1) + frac2) / nccases;
-          progressbar(frac1, frac2, frac3, frac4)
+          % % progressbar:
+          % frac4 = i/Nnl;
+          % frac3 = ((e-1) + frac4) / necases;
+          % frac2 = ((a-1) + frac3) / nacases;
+          % frac1 = ((c-1) + frac2) / nccases;
+          % progressbar(frac1, frac2, frac3, frac4)
           et = toc;
           fprintf('Noise level (%d de %d); Simulation time: %.0fs; Elipsed time: %f\n', i, Nnl, et-etold, toc);
           etold = et;
@@ -248,12 +249,12 @@ for c = 1:nccases   % controller cases
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSLS(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
-                ptst, j, Nmc, i, Nnl, parallel, pbinfo);
+                ptst, j, Nmc, i, Nnl);
             elseif estimatortypes{e} == 'IV'
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSIV(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
-                ptst, j, Nmc, i, Nnl, parallel, pbinfo);
+                ptst, j, Nmc, i, Nnl);
             else
               error('Unknown estimator type!')
             end
