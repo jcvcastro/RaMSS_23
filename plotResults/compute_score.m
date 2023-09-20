@@ -16,7 +16,7 @@ end
 
 
 % Taking datafile (only) from complete path (to save figs with same name):
-A = strread(datafile, '%s', 'delimiter',strrep(filesep,char(filesep),filesep));
+% A = strread(datafile, '%s', 'delimiter',strrep(filesep,char(filesep),filesep));
 % datafilename = A{end}(1:end-4);
 
 
