@@ -145,16 +145,16 @@ for c = 1:nccases   % controller cases
 
       %% Loading data:
       u0std = simdata.u0std;
-      if looptype == 'CL'
+      if looptype == "CL"
         y0std = simdata.y0std;
       end
 
       tregs = simdata.model.true_regs;
       ramssdata.noiseinfo.levels = nl;
-      if looptype == 'OL'
+      if looptype == "OL"
         ramssdata.noiseinfo.stds = nl*u0std;
         ramssdata.noiseinfo.u0std = u0std;
-      elseif looptype == 'CL'
+      elseif looptype == "CL"
         ramssdata.noiseinfo.stds = nl*y0std;
         ramssdata.noiseinfo.u0std = y0std;
       else
@@ -193,12 +193,12 @@ for c = 1:nccases   % controller cases
           fsrix_t = cell(1,Nmc);
           rc_t = cell(1,Nmc);
           parfor j = 1:Nmc
-            if estimatortypes{e} == 'LS'
+            if estimatortypes{e} == "LS"
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSLS(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
                 ptst, j, Nmc, i, Nnl, parallel, pbinfo);
-            elseif estimatortypes{e} == 'IV'
+            elseif estimatortypes{e} == "IV"
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSIV(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
@@ -244,7 +244,7 @@ for c = 1:nccases   % controller cases
       else
         for i = 1:Nnl
           for j = 1:Nmc
-            if estimatortypes{e} == 'LS'
+            if estimatortypes{e} == "LS"
               [rip, J, final_sel_regs_idx, reg_comb, rmv, smdl] = ...
                 RaMSSLS(simdata.u{i,j}, simdata.e{i,j}, ntr, mlagu, mlage, ...
                 dg, nm, ni, K, minrip, maxrip, alpha, rem_red,...
