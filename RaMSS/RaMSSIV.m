@@ -70,7 +70,7 @@ for k = 1:ni
     srix = find(sr(i,:));
     model = rcmb(srix,:);
 
-    [npr,nno,lag,nu,ne,nn,model2]=get_info(model);
+    [~,~,lag,nu,ne,~,~]=get_info(model);
 
     if (~ne || ~nu), continue; end % Try another model if no error inputs or no control outputs
 %     if (nu == 0), continue; end
@@ -90,12 +90,12 @@ for k = 1:ni
       [theta_hat, model, sr(i,:), u_hat, res, tau, rmv, Psi] = rmv_rdndt_iv(e_train, u_train, u_hat, Psi, theta_hat,...
         model, sr(i,:), p_tst);
 
-      [npr,nno,newlag,nu,ne,nn,model2] = get_info(model);
+      [~,~,newlag,nu,ne,~,~] = get_info(model);
 
       %stop if all regressors are removed (tau = 0) or only u or only e regressors:
-      if (~tau || ~nu || ~ne)
+      if ~tau || ~nu || ~ne
         % fprintf("tau nulo!\n");
-        continue;  % If all regrerissors are removed, try again!
+        continue;  % If all regressors are removed, try again!
       end
     end
 
@@ -119,7 +119,7 @@ for k = 1:ni
     mdl.mspe(k,i) = mspe(u_test, u_1sa);
     J(i) = exp(-K*mdl.mspe(k,i));   % index J based on one-step-ahead
     % J(i) = exp(-K*mspe(u_train, u_hat));   % index J based on residues
-    if (alpha>0)  % index based on free-run prediction:
+    if alpha>0  % index based on free-run prediction:
       e_test = e(ntr+1:n);
       u_fr = simmodeld(model,theta_hat,e_test,u(ntr+1-newlag:ntr));
       mdl.msse(k,i) = mspe(u_test, u_fr);
