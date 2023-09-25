@@ -32,8 +32,8 @@ n = length(u);
 
 % Initial RIPs:
 rip = zeros(nr,ni+1);
-rip(:,1) = ones(nr,1)./nr; % initial RIPs
-% rip(:,1) = ones(nr,1)/20; % initial RIPs
+% rip(:,1) = ones(nr,1)./nr; % initial RIPs
+rip(:,1) = ones(nr,1)/5; % initial RIPs
 
 % Initial definitions
 
@@ -41,6 +41,7 @@ Jmax = 0;
 
 mdl.mspe = zeros(ni,nm);
 mdl.msse = zeros(ni,nm);
+mdl.mape = zeros(ni,nm);
 mdl.regs = cell(ni,nm);  %WARN: Pre-creating cell to store regressors (check if no error)
 
 for k = 1:ni
@@ -122,6 +123,7 @@ for k = 1:ni
       e_test = e(ntr+1:n);
       u_fr = simmodeld(model,theta_hat,e_test,u(ntr+1-newlag:ntr));
       mdl.msse(k,i) = mspe(u_test, u_fr);
+      mdl.mape(k,i) = mape(u_test, u_fr);
       Jfr(i) = exp(-K*mdl.msse(k,i));   % J one-step-ahead
       J(i) = alpha*Jfr(i) + (1-alpha)*J(i);
     end
