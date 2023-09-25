@@ -126,8 +126,10 @@ for c = 1:nccases   % controller cases
     modelname = simdata.model.name;
 
     for e = 1:necases
-      fprintf("\na = %.1f case (%d/%d), %s controller (%d/%d), %s estimator (%d/%d):\n=================\n",...
-        alphacases(a), a, nacases, modelsnames{c}, c, nccases, estimatortypes{e}, e, necases)
+      ttncases_iter = ttncases_iter+1;
+      fprintf("CASE (%d/%d): \na = %.1f (%d/%d), %s controller (%d/%d), %s estimator (%d/%d)\n=================\n",...
+        ttncases_iter, ttncases, alphacases(a), a,...
+        nacases, modelsnames{c}, c, nccases, estimatortypes{e}, e, necases)
       % if (c==2 && alpha==0) continue; end
 
       Nmc = simdata.parameters.Nmc;
