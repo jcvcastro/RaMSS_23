@@ -292,8 +292,11 @@ for c = 1:nccases   % controller cases
 end  % a cases loop
 toc
 
-%load handel
-%sound(y,Fs)
-%plot(ramssdata.rip{1,1}')
+load handel
+sound(y,Fs)
+plot(ramssdata.rip{1,1}')
+cd ../plotResults
+cd ../RaMSS
+
 %%
 % rmpath(scriptspath)
