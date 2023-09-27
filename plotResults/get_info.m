@@ -1,0 +1,1 @@
+/home/joao/Documentos/GDRIVE/DOUTORADO/GIT/RaMSS_23/RaMSS/get_info.m
