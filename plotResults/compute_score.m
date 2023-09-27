@@ -29,7 +29,6 @@ a = ramssdata.parameters.alpha;
 
 % tregs_conc = concat_model(tregs);
 
-
 [Nnl, Nmc] = size(ramssdata.rip);
 
 score.values = zeros(Nnl,Nmc);
@@ -54,16 +53,17 @@ for inl = 1:Nnl
       score.fselregs{inl,imc} = model; % saving first selected models
 
       %% Generic regressor ranking (same methodolgy as Aguirre)
-      for i = 1:nprmd
+      for i = 1:nprmd  % Olha para os nprmd primeiro regressores classificados de acordo com RIPs
          % compare if regressor i bolongs to true regressors  (tregs)
          if(sum(prod(model(i,:) == tregs, 2)))
 %             if (i <= ntregs) && (rip.srtd.rips(i,end) >= minripscore) % if regressor equality is lower than the nunber or true regs
-            if (i <= ntregs) && (rip.srtd.lrip(i) >= minripscore) % if regressor equality is lower than the nunber or true regs
+            if (i <= ntregs) && (rip.srtd.lrip(i) >= minripscore) % Olha se o regeressor foi escolhido entre os ntregs regressores e se seu 
+                                                                  % RIP é maior que um valor mínimo
                nota(inl,imc) = nota(inl,imc) + 1/ntregs;
             elseif (rip.srtd.lrip(i) >= minripscore)
                nota(inl,imc) = nota(inl,imc) + 0.8^(i-ntregs)/ntregs;
             end
-         end 
+         end
       end
 
    end % end of noise level iterations
@@ -74,3 +74,4 @@ score.mean = mean(score.values,2);
 score.std = std(score.values,0,2);
 score.noise_levels = simdata.noise.levels;
 score.info.a = a;
+score.label = simdata.model.name;
